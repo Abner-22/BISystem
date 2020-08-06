@@ -6,7 +6,6 @@ from Municipio.models import *
 
 class DepartamentoAdmin(admin.ModelAdmin):
     search_fields = ['nombre'] #Permite realizar búsquedas tomando como parámeto el atributo nombre
-    list_filter = ['nombre']
     list_display = ['nombre'] #Muestra en pantalla el atributo nombre del departamento
     ordering = ['nombre']
 

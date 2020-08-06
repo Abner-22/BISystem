@@ -9,7 +9,7 @@ from Municipio.models import *
 
 #Crear la clase cliente tomando como base la  clase abstracta Persona
 class Cliente (Persona) :
-    nit = models.CharField('NIT', max_length=100, help_text='Ejemplo: 1234567-8')
+    nit = models.CharField('NIT', max_length=11, help_text='Ejemplo: 1234567-8')
     municipio = models.ForeignKey(Municipio, on_delete = models.CASCADE, verbose_name = 'Municipio')
     direccion = models.CharField('Dirección de Residencia', max_length=100)
     correo = models.EmailField('Correo Electrónico', max_length=254)

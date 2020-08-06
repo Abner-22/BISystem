@@ -12,7 +12,6 @@ class ClienteAdmin(admin.ModelAdmin):
     inlines = [TelefonoCliente]
     readonly_fields = ['estado']
     search_fields = ['nombres', 'apellidos']
-    #search_fields = ['names', 'surnames', 'municipality','email', 'cui', 'nit']
     list_filter = ['genero', 'municipio__departamento', 'municipio','estado']
     fields = (('nombres', 'apellidos'), ('genero','fecha_nacimiento'), ('cui','nit'),('municipio','direccion'),'correo','estado')
     list_display = ['nombres', 'apellidos', 'edad', 'nit', 'Departamento', 'municipio','estado']
@@ -20,10 +19,10 @@ class ClienteAdmin(admin.ModelAdmin):
     autocomplete_fields = ['municipio',]
 
 class TelefonoAdmin (admin.ModelAdmin):
-    search_fields = ['cliente__nombres','numero','tipo']
-    list_filter = ['cliente__nombres','numero']
+    search_fields = ['cliente__nombres', 'cliente__apellidos', 'numero','tipo']
+    list_filter = ['tipo']
     list_display = ['cliente', 'numero', 'tipo']
-    autocomplete_fields = ['cliente', 'tipo']
+    autocomplete_fields = ['cliente']
 
 admin.site.register(Cliente, ClienteAdmin)
-admin.site.register(NumeroTelefonico)
+admin.site.register(NumeroTelefonico, TelefonoAdmin)
