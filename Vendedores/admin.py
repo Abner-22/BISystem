@@ -12,7 +12,7 @@ class VendedorAdmin(admin.ModelAdmin):
     inlines = [TelefonoVendedor]
     readonly_fields = ['estado']
     search_fields = ['nombres', 'apellidos']
-    list_filter = ['genero', 'municipio__departamento', 'municipio','estado']
+    list_filter = ['genero', 'estado']
     fields = (('nombres', 'apellidos'), ('genero','fecha_nacimiento'), ('cui','codigo'),('municipio','direccion'),'correo','estado')
     list_display = ['nombres', 'apellidos', 'edad', 'codigo', 'Departamento', 'municipio','estado']
     ordering = ['nombres'] #visualizaremos los datos ordenados por nombres

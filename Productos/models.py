@@ -12,7 +12,7 @@ class Producto (models.Model):
     precio_2pagos = models.PositiveIntegerField ('Precio para 2 pagos', help_text='Solo ingresar números enteros positivos')
     precio_3pagos = models.PositiveIntegerField ('Precio para 3 pagos', help_text='Solo ingresar números enteros positivos')
     precio_plazos = models.PositiveIntegerField ('Precio a plazos', help_text='Solo ingresar números enteros positivos')
-    estado = models.BooleanField('Estado', default='True')
+    estado = models.BooleanField('Estado', default=True)
 
     def __str__ (self) :
         return self.nombre

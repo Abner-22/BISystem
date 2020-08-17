@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'Clientes',
     'Vendedores',
     'Productos',
+    'Ventas_Contado',
+    'Ventas_Credito',
+    'Referencias',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +63,7 @@ ROOT_URLCONF = 'BISystem.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['Templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
