@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from decimal import Decimal
 
 #Importaciones desde los modulos existentes
 from Clientes.models import *
@@ -13,7 +14,8 @@ class VentaCredito (models.Model) :
     cliente = models.ForeignKey(Cliente, on_delete = models.CASCADE)
     vendedor = models.ForeignKey(Vendedor, on_delete = models.CASCADE)
     credito = models.CharField('Crédito a', max_length=1, choices=tipos_pagos, default='1')
-    total = models.DecimalField('total', max_digits=7, decimal_places=2, default=0.00 )
+    total = models.DecimalField('Total Q.', max_digits=7, decimal_places=2, default=0.00 )
+    saldo = models.DecimalField('Saldo Q.', max_digits=7, decimal_places=2, default=0.00 )
 
     def __str__(self):
         cadena = "{0} {1} {2}"
@@ -22,11 +24,20 @@ class VentaCredito (models.Model) :
     def Total (self):
         return 'Q. %s' % self.total
 
+    def Saldo (self):
+        return 'Q. %s' % self.saldo
+
     def agregarTotal (self, total):
         self.total += total
 
     def descontarTotal (self, total):
         self.total -= total
+
+    def agregarSaldo (self, saldo):
+        self.saldo += saldo
+
+    def descontarSaldo (self, saldo):
+        self.saldo -= saldo
 
     def save(self, **kwargs):
         super(VentaCredito, self).save()
@@ -46,6 +57,7 @@ class DetalleVentaCredito (models.Model):
     venta = models.ForeignKey(VentaCredito, on_delete=models.CASCADE, verbose_name = 'Venta')
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE, verbose_name = 'Producto')
     cantidad = models.PositiveIntegerField()
+    engache = models.DecimalField('Enganche Q', max_digits=7, decimal_places=2, default=0.00 )
 
     '''Función para capturar el total de la venta y poder modificarlo
         El total nos servirá para  
@@ -55,43 +67,67 @@ class DetalleVentaCredito (models.Model):
         id_producto = self.producto.pk
         id_venta = self.venta.pk
         if total == 0 :
-            #self.producto.descontarStock(self.cantidad)
             if self.venta.credito == '1':
                 self.venta.total = self.venta.total + (self.producto.precio_2pagos * self.cantidad)
+                self.venta.saldo =self.venta.total - int(self.engache)
             if self.venta.credito == '2':
                 self.venta.total = self.venta.total + (self.producto.precio_3pagos * self.cantidad)
+                self.venta.saldo =self.venta.total - int(self.engache)
             if self.venta.credito == '3':
                 self.venta.total = self.venta.total + (self.producto.precio_plazos * self.cantidad)
+                self.venta.saldo =self.venta.total - int(self.engache)
         else:
             try:
                 item = DetalleVentaCredito.objects.get(venta=id_venta, producto=id_producto)
                 if item.cantidad > self.cantidad:
                     diferencia = item.cantidad - self.cantidad
-                    #self.producto.agregarStock(diferencia)
                     if self.venta.credito == '1':
+                        #total=self.product.price * self.quantity
                         total=self.producto.precio_2pagos * self.cantidad
+                        self.venta.descontarTotal(total)
+                        saldo=item.engache - int(self.engache)
+                        self.venta.agregarSaldo(saldo)
                     if self.venta.credito == '2':
                         total=self.producto.precio_3pagos * self.cantidad
+                        self.venta.descontarTotal(total)
+                        saldo=item.engache - int(self.engache)
+                        self.venta.agregarSaldo(saldo)
                     if self.venta.credito == '3':
                         total=self.producto.precio_plazos * self.cantidad
-                    self.venta.descontarTotal(total)
+                        self.venta.descontarTotal(total)
+                        saldo=item.engache - int(self.engache)
+                        self.venta.agregarSaldo(saldo)
                 else:
                     diferencia = self.cantidad - item.cantidad
                     if self.venta.credito == '1':
                         total=self.producto.precio_2pagos * diferencia
+                        self.venta.agregarTotal(total)
+                        saldo=int(self.engache) - item.engache
+                        self.venta.descontarSaldo(saldo)
                     if self.venta.credito == '2':
                         total=self.producto.precio_3pagos * diferencia
+                        self.venta.agregarTotal(total)
+                        saldo=int(self.engache) - item.engache
+                        self.venta.descontarSaldo(saldo)
                     if self.venta.credito == '3':
                         total=self.producto.precio_plazos * diferencia
-                    self.venta.agregarTotal(total)
+                        self.venta.agregarTotal(total)
+                        saldo=int(self.engache) - item.engache
+                        self.venta.descontarSaldo(saldo)
             except:
                 if self.venta.credito == '1':
                     self.venta.total = self.venta.total + (self.producto.precio_2pagos * self.cantidad)
+                    saldo = (self.producto.precio_2pagos * self.cantidad)-int(self.engache)
+                    self.venta.agregarSaldo(saldo)
                 if self.venta.credito == '2':
                     self.venta.total = self.venta.total + (self.producto.precio_3pagos * self.cantidad)
+                    saldo = (self.producto.precio_3pagos * self.cantidad)-int(self.engache)
+                    self.venta.agregarSaldo(saldo)
                 if self.venta.credito == '3':
                     self.venta.total = self.venta.total + (self.producto.precio_plazos * self.cantidad)
-        self.producto.save() #Guardamos el producto dado que se modifico su stock
+                    saldo = (self.producto.precio_plazos * self.cantidad)-int(self.engache)
+                    self.venta.agregarSaldo(saldo)
+
         self.venta.save() #Guardamos la venta junto a su detalle
         super(DetalleVentaCredito, self).save() #Guardamos el detalle
     """

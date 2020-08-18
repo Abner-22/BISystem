@@ -19,10 +19,10 @@ class ReferenciaCliente (admin.TabularInline):
 
 class VentaCreditoAdmin (admin.ModelAdmin):
     inlines = [VentaDetalleCredito, ReferenciaCliente]
-    readonly_fields = ['total']
+    readonly_fields = ['total','saldo']
     search_fields = ['cliente__nombres', 'cliente__apellidos', 'cliente__nit']
     list_filter = ['fecha', 'vendedor']
-    list_display = ['fecha', 'cliente', 'vendedor', 'credito','Total']
+    list_display = ['fecha', 'cliente', 'vendedor', 'credito','Total','Saldo']
     ordering = ['fecha']
     autocomplete_fields = ['cliente', 'vendedor']
 
