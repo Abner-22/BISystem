@@ -1,0 +1,105 @@
+<HEAD>
+ <meta content="text/html;" http-equiv="content-type" charset="utf-8">
+</HEAD>
+
+{% extends "easy_pdf/base.html" %}
+
+{% block content %}
+<center>
+    <h1 align=center><strong><font color= "DarkBlue">Distribuidora "ABNER"</font></strong></h1>
+    <font color="blue"><strong>2da. Calle 16 Avenida 2-10 "B" zona 5, Chiquimula</strong></font>
+    <font color="blue"><strong><br>Teléfono: 7942-6440 y 5387-5792 </strong></font>
+</center>
+<h2 align="center"><br>Informe de ventas al Credito</h2>
+{%if mes == 1%}
+      <h2 align="center"><br>Enero, {{año}}</h2>
+{% endif %}
+{%if mes == 2%}
+      <h2 align="center"><br>Febrero, {{año}}</h2>
+{% endif %}
+{%if mes == 3%}
+      <h2 align="center"><br>Marzo, {{año}}</h2>
+{% endif %}
+{%if mes == 4%}
+      <h2 align="center"><br>Abril, {{año}}</h2>
+{% endif %}
+{%if mes == 5%}
+      <h2 align="center"><br>Mayo, {{año}}</h2>
+{% endif %}
+{%if mes == 6%}
+      <h2 align="center"><br>Junio, {{año}}</h2>
+{% endif %}
+{%if mes == 7%}
+      <h2 align="center"><br>Julio, {{año}}</h2>
+{% endif %}
+{%if mes == 8%}
+      <h2 align="center"><br>Agosto, {{año}}</h2>
+{% endif %}
+{%if mes == 9%}
+      <h2 align="center"><br>Septiembre, {{año}}</h2>
+{% endif %}
+{%if mes == 10%}
+      <h2 align="center"><br>Octubre, {{año}}</h2>
+{% endif %}
+{%if mes == 11%}
+      <h2 align="center"><br>Noviembre, {{año}}</h2>
+{% endif %}
+{%if mes == 12%}
+      <h2 align="center"><br>Diciembre, {{año}}</h2>
+{% endif %}
+
+ <style>
+            table {
+            padding: 3px 2px;
+                text-align: center;
+                border: none;
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            td {
+                padding: 3px 3px;
+                text-align: center;
+                border: none;
+            }
+
+            tr:nth-child(1) {
+                background: #dedede;
+            }
+        </style>
+<table>
+  <thead>
+    <tr>
+      <th align=center>NO. DE VENTA</th>
+      <th align=center>FECHA</th>
+      <th align=center>CLIENTE</th>
+      <th align=center>CREDITO</th>
+      <th align=center>TOTAL</th>
+      <th align=center>SALDO</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {%for sale in ventas%}
+    <tr>
+      <td align=center>{{sale.id}}</td>
+      <td align=center>{{sale.fecha}}</td>
+      <td align=center>{{sale.Cliente}}</td>
+      {%if sale.credito == '1'%}
+      <td>Dos pagos</td>
+      {% endif %}
+      {%if sale.credito == '2'%}
+      <td>Tres pagos</td>
+      {% endif %}
+      {%if sale.credito == '3'%}
+      <td>Plazos</td>
+      {% endif %}
+      <td align=center>Q. {{sale.total}}</td>
+      <td align=center>Q. {{sale.saldo}}</td>
+    </tr>
+
+    {%endfor%}
+  </tbody>
+</table>
+
+{%endblock content%}

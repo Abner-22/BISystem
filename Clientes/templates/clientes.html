@@ -1,0 +1,58 @@
+<HEAD>
+ <meta content="text/html;" http-equiv="content-type" charset="utf-8">
+</HEAD>
+
+{% extends "easy_pdf/base.html" %}
+
+{% block content %}
+<center>
+    <h1 align=center><strong><font color= "DarkBlue">Distribuidora "ABNER"</font></strong></h1>
+    <font color="blue"><strong>2da. Calle 16 Avenida 2-10 "B" zona 5, Chiquimula</strong></font>
+    <font color="blue"><strong><br>Teléfono: 7942-6440 y 5387-5792 </strong></font>
+</center>
+<h2 align="center"><br>Informe de Clientes</h2>
+ <style>
+            table {
+            padding: 3px 2px;
+                text-align: center;
+                border: none;
+                width: 100%;
+            }
+
+            td {
+                padding: 2px 2px;
+                text-align: center;
+                border: none;
+            }
+
+            tr:nth-child(1) {
+                background: #dedede;
+            }
+ </style>
+<table>
+  <thead>
+    <tr>
+      <th align=center colspan="2">NOMBRE</th>
+      <th align=center colspan="1">NIT</th>
+       <th align=center colspan="3">UBICACION</th>
+      <th align=center>ESTADO</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {%for client in clientes%}
+    <tr>
+      <td align=left colspan="2">{{client}}</td>
+      <td align=center colspan="1">{{client.nit}}</td>
+      <td align=center colspan="3">{{client.municipio}}</td>
+       {%if client.estado == True%}
+      <td align=center>ACTIVO</td>
+      {%endif%}
+      {%if client.state == False%}
+      <td align=center>INACTIVO</td>
+      {%endif%}
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+{%endblock content%}

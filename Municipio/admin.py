@@ -7,12 +7,14 @@ from Municipio.models import *
 class DepartamentoAdmin(admin.ModelAdmin):
     search_fields = ['nombre'] #Permite realizar búsquedas tomando como parámeto el atributo nombre
     list_display = ['nombre'] #Muestra en pantalla el atributo nombre del departamento
+    list_per_page = 15
     ordering = ['nombre']
 
 class MunicipioAdmin(admin.ModelAdmin):
     search_fields = ['nombre'] #Permite realizar búsquedas tomando como parámeto el atributo nombre
     list_filter = ['departamento'] #Crear un filtro para realizar búsquedas por departamento
     list_display = ['nombre', 'departamento'] #Muestra en pantalla los atributos nombre y departamento del cada municipio.
+    list_per_page = 15
     ordering = ['nombre']
     autocomplete_fields = ['departamento',]
 

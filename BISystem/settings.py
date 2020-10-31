@@ -25,7 +25,7 @@ SECRET_KEY = 'h8-83k09mi+*ja!6%5#4_9segzh=)*17c!zywy#pvabg0mkdyn'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', '192.168.1.7', '*']
 
 
 # Application definition
@@ -39,13 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Persona',
     'Telefono',
-    'Municipio',
+    'Municipio.apps.MunicipioConfig',
     'Clientes',
     'Vendedores',
     'Productos',
-    'Ventas_Contado',
-    'Ventas_Credito',
-    'Referencias',
+    'Ventas_Contado.apps.VentasContadoConfig',
+    'Ventas_Credito.apps.VentasCreditoConfig',
+    #'Referencias',
+    'Cobros.apps.CobrosConfig',
+    'easy_pdf',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +133,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'media'

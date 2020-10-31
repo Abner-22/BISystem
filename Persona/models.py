@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import datetime
+from datetime import datetime #Libreria que facilitar el manejo y captura de las fechas.
 from django.utils.safestring import mark_safe
 
 # Creación del modelo Persona
@@ -9,7 +9,7 @@ class Persona (models.Model):
     apellidos = models.CharField('Apellidos', max_length=50, help_text='Ingresar solo los apellidos')
     genero = models.CharField('Género', max_length=1, choices=opciones_genero, default='M')
     fecha_nacimiento = models.DateField('Fecha de nacimiento', help_text='Ejemplo: 01/01/1991')
-    cui = models.CharField('CUI', max_length=17, help_text="Código que se encuentra en el DPI de cada persona")
+    cui = models.CharField('CUI', max_length=17,  unique=True, help_text="Código que se encuentra en el DPI de cada persona")
 
     """
     Funcion que calcula la edad cada persona según su fecha de nacimiento.
@@ -26,9 +26,9 @@ class Persona (models.Model):
         nombre = "{0} {1}"
         return nombre.format(self.nombres, self.apellidos)
 
-    #Función por defecto que retorna en nombre completa de las personas
+    #Función por defecto que retorna el nombre completa de las personas
     def __str__(self):
-        return self.nombrecompleto()
+        return mark_safe('<span style="color: red">{0}</span>'.format(self.nombrecompleto()))
 
     class Meta:
         abstract = True #El atributo abstract permite que la clase persona pueda ser usada para heredar a otra clase.

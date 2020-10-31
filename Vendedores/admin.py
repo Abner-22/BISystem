@@ -21,7 +21,7 @@ class VendedorAdmin(admin.ModelAdmin):
 class TelefonoAdmin (admin.ModelAdmin):
     search_fields = ['vendedor__nombres','numero','tipo']
     list_filter = ['tipo']
-    list_display = ['vendedor', 'numero', 'tipo']
+    list_display = ['vendedor', 'tipo', 'numero']
     autocomplete_fields = ['vendedor']
 
 admin.site.register(Vendedor, VendedorAdmin)

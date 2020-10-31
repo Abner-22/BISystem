@@ -1,0 +1,56 @@
+<HEAD>
+ <meta content="text/html;" http-equiv="content-type" charset="utf-8">
+</HEAD>
+
+{% extends "easy_pdf/base.html" %}
+
+{% block content %}
+<center>
+    <h1 align=center><strong><font color= "DarkBlue">Distribuidora "ABNER"</font></strong></h1>
+    <font color="blue"><strong>2da. Calle 16 Avenida 2-10 "B" zona 5, Chiquimula</strong></font>
+    <font color="blue"><strong><br>Teléfono: 7942-6440 y 5387-5792 </strong></font>
+</center>
+<h2 align="center"><br>Informe general de ventas al contado</h2>
+ <style>
+            table {
+            padding: 3px 2px;
+                text-align: center;
+                border: none;
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            td {
+                padding: 3px 3px;
+                text-align: center;
+                border: none;
+            }
+
+            tr:nth-child(1) {
+                background: #dedede;
+            }
+        </style>
+<table>
+  <thead>
+    <tr>
+      <th align=center>NO. DE VENTA</th>
+      <th align=center>FECHA</th>
+      <th align=center>CLIENTE</th>
+      <th align=center>TOTAL</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {%for sale in ventas%}
+    <tr>
+      <td align=center>{{sale.id}}</td>
+      <td align=left>{{sale.fecha}}</td>
+      <td align=left>{{sale.cliente}}</td>
+      <td align=center>Q. {{sale.total}}.00</td>
+    </tr>
+
+    {%endfor%}
+  </tbody>
+</table>
+
+{%endblock content%}

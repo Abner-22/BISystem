@@ -1,0 +1,212 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% block head %}
+    <script src="{% static 'admin/lib/highcharts-8.2.0/highcharts.js' %}"></script>
+    <script src="{% static 'admin/lib/highcharts-8.2.0/modules/exporting.js' %}"></script>
+    <script src="{% static 'admin/lib/highcharts-8.2.0/modules/export-data.js' %}"></script>
+    <script src="{% static 'admin/lib/highcharts-8.2.0/modules/accessibility.js' %}"></script>
+{% endblock %}
+
+{%  block content %}
+<center>
+    <font color="darkblue" size="6px"><strong><br>Sección de productos</strong></font>
+</center>
+<div id="contaner1">
+    <table align="center">
+        <tr>
+            <td align="center" colspan="2">
+                <h2 style="color:#26a220;">Productos más vendidos</h2>
+            </td>
+            <td>
+
+            </td>
+            <td align="center" colspan="2">
+                <h2 style="color:#ff5050;">Productos menos vendidos</h2>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h3>Al contado: {{producto1.masvendidocontado}}</h3>
+            </td>
+            <td>
+                <h3>Al credito: {{producto1.masvendidocredito}}</h3>
+            </td>
+            <td>
+
+            </td>
+            <td>
+                <h3>Al contado: {{producto1.menosvendidocontado}}</h3>
+            </td>
+            <td>
+                <h3>Al credito: {{producto1.menosvendidocredito}}</h3>
+            </td>
+        </tr>
+    </table>
+</div>
+<center>
+    <font color="darkblue" size="6px"><strong><br>Sección de ventas</strong></font>
+</center>
+<table align="center">
+    <tr>
+        <td align="center">
+            <figure class="highcharts-figure">
+                <div id="container3"></div>
+            </figure>
+            <script type="application/javascript">
+            Highcharts.setOptions({
+            colors: ['#da5552', '#3fa7d6', '#59cd90', '#8d99ae']
+            });
+
+            Highcharts.chart('container3', {
+                chart: {
+                    type: 'column'
+                            },
+                            title: {
+                                text: 'Informe de Ventas'
+                            },
+                            subtitle: {
+                                text: 'Año {{año}}'
+                            },
+                            xAxis: {
+                                categories: [
+                                    'Enero',
+                                    'Febrero',
+                                    'Marzo',
+                                    'Abril',
+                                    'Mayo',
+                                    'Junio',
+                                    'Julio',
+                                    'Agosto',
+                                    'Septiembre',
+                                    'Octubre',
+                                    'Noviembre',
+                                    'Diciembre'
+                                ],
+                                crosshair: true
+                            },
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: 'Ventas realizadas'
+                                }
+                            },
+                            tooltip: {
+                                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                    '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
+                                footerFormat: '</table>',
+                                shared: true,
+                                useHTML: true
+                            },
+                            plotOptions: {
+                                column: {
+                                    pointPadding: 0.2,
+                                    borderWidth: 0
+                                }
+                            },
+                            series: [
+                            {
+                            name: 'Ventas Contado',
+                            colorByPoint: false,
+                            dataLabels: {
+                                enabled: true
+                             },
+                            data: {{ grafica|safe }}
+                            },
+                            {
+                            name: 'Ventas Crédito',
+                            colorByPoint: false,
+                            dataLabels: {
+                                enabled: true
+                             },
+                            data: {{ grafica2|safe }}
+                            },
+                         ]
+                    });
+            </script>
+        </td>
+        <td align="center">
+            <figure class="highcharts-figure">
+                <div id="container4"></div>
+            </figure>
+            <script type="application/javascript">
+            Highcharts.chart('container4', {
+                chart: {
+                    type: 'column'
+                            },
+                            title: {
+                                text: 'Informe de Ingresos'
+                            },
+                            subtitle: {
+                                text: 'Año {{año}}'
+                            },
+                            xAxis: {
+                                categories: [
+                                    'Enero',
+                                    'Febrero',
+                                    'Marzo',
+                                    'Abril',
+                                    'Mayo',
+                                    'Junio',
+                                    'Julio',
+                                    'Agosto',
+                                    'Septiembre',
+                                    'Octubre',
+                                    'Noviembre',
+                                    'Diciembre'
+                                ],
+                                crosshair: true
+                            },
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: 'Ingresos por ventas'
+                                }
+                            },
+                            tooltip: {
+                                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                    '<td style="padding:0"><b>Q. {point.y:.2f}</b></td></tr>',
+                                footerFormat: '</table>',
+                                shared: true,
+                                useHTML: true
+                            },
+                            plotOptions: {
+                                column: {
+                                    pointPadding: 0.2,
+                                    borderWidth: 0
+                                }
+                            },
+                            series: [
+                            {
+                            name: 'Ventas Contado',
+                            colorByPoint: false,
+                            data: {{ contado|safe }}
+                            },
+                            {
+                            name: 'Ventas Crédito',
+                            colorByPoint: false,
+                            data: {{ credito|safe }}
+                            },
+                         ]
+                    });
+            </script>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <p class="highcharts-description">
+                Informe de ventas al contado y al crédito del año en curso.
+                Dentro de la presente gráfica se pueden visualizar las cantidad de ventas,
+                al contado y al crédito, realizadas por mes.
+            </p>
+        </td>
+        <td width="50%">
+            <p class="highcharts-description">
+                Infome de ingresos provenientes de las ventas al contado y al crédito realizadas en el año en curso.
+                Los ingresos se detallan por mes dependiento de la fecha en que se realizó la venta.
+            </p>
+        </td>
+    </tr>
+</table>
+{% endblock %}

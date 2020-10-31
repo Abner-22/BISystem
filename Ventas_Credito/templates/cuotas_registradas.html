@@ -1,0 +1,163 @@
+<HEAD>
+ <meta content="text/html;" http-equiv="content-type" charset="utf-8">
+</HEAD>
+{% extends "easy_pdf/base.html" %}
+{% block content %}
+<center>
+    <font color="DarkBlue" size="20px" face="Times New Roman"><strong><br>Distribuidora "ABNER"</strong></font>
+    <font color="blue" size="14px" face="Times New Roman"><strong><br>2da. Calle 16 Avenida 2-10 "B" zona 5, Chiquimula</strong></font>
+    <font color="blue" size="14px" face="Times New Roman"><strong><br>Teléfonos: 7942-6440 y 5387-5792 </strong></font>
+</center>
+
+<center>
+    <br>
+    <font color="black" size="18px" face="Times New Roman"><strong><br>Estado de venta</strong></font>
+    <br>
+    <font color="black" size="16px" face="Times New Roman"><strong><br><u>Venta No.  {{ venta.id }}</u></strong></font>
+</center>
+
+<div id="data">
+    <style>
+    table.datatb {
+        font-size: 12px;
+        border-collapse: collapse;
+        margin: 0 auto;
+    }
+
+    table.datatb td {
+        text-align: left;
+        padding: none;
+        colspan: 2;
+    }
+
+    table.datatb th {
+        text-align: left;
+        padding: 1px;
+        width: 40%;
+    }
+    </style>
+    <table class="datatb" width="50%">
+        <tr>
+            <th>
+                Fecha de venta:
+            </th>
+            <td>
+                {{ venta.fecha }}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Cliente:
+            </th>
+            <td>
+                {{ venta.Cliente }}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Vendedor:
+            </th>
+            <td>
+                {{ venta.vendedor }}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Credito a:
+            </th>
+            <td>
+                {%if venta.credito == '1'%}
+                Dos Pagos
+                {% endif %}
+                {%if venta.credito == '2'%}
+                Tres Pagos
+                {% endif %}
+                {%if venta.credito == '3'%}
+                Plazos
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Total:
+            </th>
+            <td>
+                Q. {{ venta.total }}.00
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <th>
+                Engache:
+            </th>
+            <td>
+                Q. {{ venta.enganche }}.00
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Saldo:
+            </th>
+            <td>
+                Q. {{venta.saldo}}.00
+
+            </td>
+        </tr>
+        <br>
+    </table>
+</div>
+
+<center>
+    <font color="black" size="16px" face="Times New Roman"><strong><br><br>- - - - - - - - Cuotas registradas - - - - - - - -</strong></font>
+    <font color="black" size="14px" face="Times New Roman"><strong><br></strong></font>
+</center>
+
+<div id="content">
+            <style>
+            table.detail {
+            padding: 3px 2px;
+                text-align: center;
+                border: none;
+                width: 100%;
+                border-bottom: 1px solid #ddd;
+                background-color: #f2f2f2;
+            }
+            table.detail td {
+                padding: 3px 2px;
+                text-align: center;
+                border: none;
+            }
+        </style>
+        <br>
+            <table class="detail">
+                <thead>
+                    <tr>
+                         <th align=center>FECHA</th>
+                         <th align=center>VENTA No.</th>
+                         <th align=center>CUOTA</th>
+                         <th align=center>SALDO</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        {%for cuota in cuotas%}
+                        <tr>
+                            <td align=left>{{cuota.fecha}}</td>
+                            <td align=center>{{cuota.venta.id}}</td>
+                            <td align=center>Q. {{cuota.cuota}}</td>
+                            <td align=center>Q. {{cuota.saldo}}</td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+            </table>
+</div>
+<center>
+        <font color="black" size="14px" face="Times New Roman"><strong><br>Saldo Actual: </strong></font>
+        <font color="black" size="14px" face="Times New Roman"><strong>{{ venta.getSaldo }}</strong></font>
+</center>
+<br>
+<div id="footer">
+      <center><br>
+      </center>
+      <br>
+    </div>
+{% endblock %}

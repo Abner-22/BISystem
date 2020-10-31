@@ -19,7 +19,8 @@ class Municipio (models.Model):
     departamento = models.ForeignKey(Departamento, on_delete = models.CASCADE)
 
     def __str__(self):
-        return self.nombre
+        cadena = '{}, {}'
+        return cadena.format(self.nombre, self.departamento)
 
     class Meta:
         db_table = 'municipio'

@@ -1,0 +1,128 @@
+<HEAD>
+ <meta content="text/html;" http-equiv="content-type" charset="utf-8">
+</HEAD>
+{% extends "easy_pdf/base.html" %}
+{% block content %}
+<center>
+    <h1 align=center><strong><font color= "DarkBlue">Distribuidora "ABNER"</font></strong></h1>
+    <font color="blue"><strong>2da. Calle 16 Avenida 2-10 "B" zona 5, Chiquimula</strong></font>
+    <font color="blue"><strong><br>Teléfono: 7942-6440 y 5387-5792 </strong></font>
+</center>
+<h2 align="center"><br>Comprobante de venta al credito</h2>
+<h2 align="center">Venta No.  {{ venta.id }}</h2><br>
+<div id="content">
+
+    <table>
+
+        <tr>
+        <th align=center> Fecha:
+            <td>
+                {{ venta.fecha }}
+            </td></th>
+        </tr>
+        <tr>
+        <th align=center> Cliente:
+            <td>
+                {{ venta.cliente }}
+            </td></th>
+        </tr>
+        <tr>
+        <th align=center> Credito:
+            {%if venta.credito == '1'%}
+            <td>Dos pagos</td>
+            {% endif %}
+            {%if venta.credito == '2'%}
+            <td>Tres pagos</td>
+            {% endif %}
+            {%if venta.credito == '3'%}
+            <td>Plazos</td>
+            {% endif %}
+            </td></th>
+        </tr>
+
+            <style>
+            table {
+            padding: 3px 2px;
+                text-align: center;
+                border: none;
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            td {
+                padding: 5px 10px;
+                text-align: center;
+                border: none;
+            }
+
+            tr:nth-child(1) {
+                background: #dedede;
+            }
+        </style>
+            <table>
+                <h2 align="center">- - - - - - - - - Detalle de la venta - - - - - - - - -</h2>
+                <thead>
+                    <tr>
+                         <th align=center colspan="1">CANTIDAD</th>
+                         <th align=center colspan="2">PRODUCTO</th>
+                         <th align=center colspan=4>DESCRIPCION</th>
+                         <th align=center> PRECIO</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        {%for saledetail in detalle%}
+                         <td align=center >{{saledetail.cantidad}}</td>
+                          <td align=center colspan="2">{{saledetail.Producto}}</td>
+                          <td align=center colspan="4">{{saledetail.producto.descripcion}}</td>
+                            {%if venta.credito == '1'%}
+                            <td align=center>Q. {{saledetail.producto.precio_2pagos}}</td>
+                            {% endif %}
+                            {%if venta.credito == '2'%}
+                            <td align=center>Q. {{saledetail.producto.precio_3pagos}}</td>
+                            {% endif %}
+                            {%if venta.credito == '3'%}
+                            <td align=center>Q. {{saledetail.producto.precio_plazos}}</td>
+                            {% endif %}
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+            </table>
+            <br>
+        </tr>
+        <tr>
+            <th>
+                Total:
+            </th>
+            <td>
+                Q. {{ venta.total }}
+
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <th>
+                Saldo:
+            </th>
+            <td>
+                Q. {{ venta.saldo }}
+
+            </td>
+        </tr>
+        <br>
+        <tr>
+            <th>
+                Vendedor:
+            </th>
+            <td>
+                {{ venta.vendedor }}
+            </td>
+        </tr>
+    </table>
+</div>
+<br>
+<div id="footer">
+      <center><br>
+      </center>
+      <br>
+    </div>
+{% endblock %}

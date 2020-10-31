@@ -9,8 +9,10 @@ from Municipio.models import *
 
 #Crear la clase vendedor tomando como base la  clase abstracta Persona
 class Vendedor (Persona) :
-    codigo = models.CharField('Código de vendedor', max_length=10, help_text='Ejemplo: EMP-001')
-    municipio = models.ForeignKey(Municipio, on_delete = models.CASCADE, verbose_name = 'Municipio')
+    codigo = models.CharField('Código de vendedor', max_length=10,
+                    help_text='Ejemplo: EMP-001')
+    municipio = models.ForeignKey(Municipio, on_delete = models.CASCADE,
+                    verbose_name = 'Municipio')
     direccion = models.CharField('Dirección de Residencia', max_length=100)
     correo = models.EmailField('Correo Electrónico', max_length=254)
     estado = models.BooleanField('Estado', default=True)
@@ -40,5 +42,5 @@ class NumeroTelefonico (Telefono):
     class Meta:
         db_table = 'telefonosvendedores'
         verbose_name = 'Número de teléfono del vendedor'
-        verbose_name_plural = 'Números telefónicos de vendedores'
+        verbose_name_plural = 'Agenda telefónica de vendedores'
         unique_together = ['numero']

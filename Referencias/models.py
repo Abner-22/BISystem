@@ -8,7 +8,7 @@ class Referencia (models.Model):
     cliente = models.ForeignKey(Cliente, on_delete = models.CASCADE, verbose_name = 'Cliente')
     venta = models.ForeignKey(VentaCredito, on_delete = models.CASCADE, verbose_name = 'Venta')
     nombre = models.CharField('Referencia', max_length=100)
-    relacion = models.CharField('Relación', max_length=1, choices=opciones_relacion, default='F')
+    relacion = models.CharField('Relación con el Cliente', max_length=1, choices=opciones_relacion, default='F')
     numero = models.PositiveIntegerField ('Número de Teléfono', help_text='Solo ingresar números')
 
     def __str__(self):

@@ -1,0 +1,89 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% block head %}
+    <script src="{% static 'admin/lib/highcharts-8.2.0/highcharts.js' %}"></script>
+    <script src="{% static 'admin/lib/highcharts-8.2.0/modules/exporting.js' %}"></script>
+    <script src="{% static 'admin/lib/highcharts-8.2.0/modules/export-data.js' %}"></script>
+    <script src="{% static 'admin/lib/highcharts-8.2.0/modules/accessibility.js' %}"></script>
+{% endblock %}
+
+{%  block content %}
+<a href="{% url 'admin:index' %}" class="object-tools"> Ir al admin </a>
+
+<div>
+    <h2 style="color:#26a220;">Productos más vendido</h2>
+    <h3>Al contado: {{producto1.masvendidocontado}}</h3>
+    <h3>Al credito: {{producto1.masvendidocredito}}</h3>
+    <h2 style="color:#ff5050;">Productos menos vendido</h2>
+    <h3>Al contado: {{producto1.menosvendidocontado}}</h3>
+    <h3>Al credito: {{producto1.menosvendidocredito}}</h3>
+</div>
+
+<figure class="highcharts-figure">
+    <div id="container2"></div>
+</figure>
+    <script type="application/javascript">
+            Highcharts.chart('container2', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Informe de Ventas'
+                },
+                subtitle: {
+                    text: 'Año {{año}}'
+                },
+                xAxis: {
+                    categories: [
+                        'Enero',
+                        'Febrero',
+                        'Marzo',
+                        'Abril',
+                        'Mayo',
+                        'Junio',
+                        'Julio',
+                        'Agosto',
+                        'Septiembre',
+                        'Octubre',
+                        'Noviembre',
+                        'Diciembre'
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Ventas realizadas'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [
+                {
+                name: 'Ventas Contado',
+                colorByPoint: true,
+                data: {{ grafica|safe }}
+                },
+                {
+                name: 'Ventas Crédito',
+                colorByPoint: true,
+                data: {{ grafica2|safe }}
+                },
+             ]
+        });
+        </script>
+{% endblock %}
+
+
